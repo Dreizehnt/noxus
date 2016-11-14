@@ -585,9 +585,9 @@ sub dostats
 				$hpk = sprintf("%.2f", (100/$self->{total_kills})*$self->{total_headshots});
 			}  
 			if ($rcmd ne "") {
-				$self->dorcon("$rcmd ".$self->quoteparam("HLstatsX:CE - Tracking ".&::number_format($self->{players})." players with ".&::number_format($self->{total_kills})." kills and ".&::number_format($self->{total_headshots})." headshots ($hpk%)"));
+				$self->dorcon("$rcmd ".$self->quoteparam("HLstatsX:CE - Отслеживается ".&::number_format($self->{players})." игрок. с ".&::number_format($self->{total_kills})." уб. и ".&::number_format($self->{total_headshots})." уб. в гол. ($hpk%)"));
 			} else {
-				$self->messageAll("HLstatsX:CE - Tracking ".&::number_format($self->{players})." players with ".&::number_format($self->{total_kills})." kills and ".&::number_format($self->{total_headshots})." headshots ($hpk%)");
+				$self->messageAll("HLstatsX:CE - Отслеживается ".&::number_format($self->{players})." игрок. с ".&::number_format($self->{total_kills})." уб. и ".&::number_format($self->{total_headshots})." уб. в гол. ($hpk%)");
 			}  
 		}  
 	}  

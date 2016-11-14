@@ -140,7 +140,7 @@ sub get_next_ranks
 	if ($g_ranktype eq "kills") {
 		$rankword = " kills";
 	}
-	my $osd_message = "->1 - Next Players\\n".sprintf("   %02d  %s%s        -      %s", $ranknumber, &number_format($base), $rankword, $playerName)."\\n";
+	my $osd_message = "->1 - След. игроки\\n".sprintf("   %02d  %s%s        -      %s", $ranknumber, &number_format($base), $rankword, $playerName)."\\n";
    
 	my $result = &doQuery("
 		SELECT
@@ -277,7 +277,7 @@ sub get_menu_text
 	my $p_name         = $player->{name};
 	my $p_connect_time = $player->{connect_time};
 
-	my $s_pos_change = "N/A";
+	my $s_pos_change = "НЕТ";
 	if ($player->{session_start_pos} > 0)  {
 		$s_pos_change   = ($player->{session_start_pos} - $rank_number);
 		if ($s_pos_change > 0) {
@@ -326,21 +326,21 @@ sub get_menu_text
 		}
 	}
 
-	my $weapon_str =  "   No Fav Weapon\\n";
-	my $acc_str    =  "   $acc% Accuracy\\n";
+	my $weapon_str =  "   Нет отслеж. оруж.\\n";
+	my $acc_str    =  "   $acc% точность\\n";
 	if ($fav_weapon_kills > 0) {
 		$weapon_str = "   ".$fav_weapon_kills." kills with ".$fav_weapon."\\n";
-		$acc_str    = "   $acc% Accuracy (".$fav_weapon." ".$fav_weapon_acc."%)\\n";
+		$acc_str    = "   $acc% точность (".$fav_weapon." ".$fav_weapon_acc."%)\\n";
 	}
 	if ($acc == 0) {
 		$acc_str = "";
 	}
 
-	$s_weapon_str =  "   No Fav Weapon\\n";
-	$s_acc_str    =  "   $s_acc% Accuracy\\n";
+	$s_weapon_str =  "   Нет отслеж. оруж.\\n";
+	$s_acc_str    =  "   $s_acc% точность\\n";
 	if ($s_fav_weapon_kills > 0) {
 		$s_weapon_str = "   ".$s_fav_weapon_kills." kills with ".$s_fav_weapon."\\n";
-		$s_acc_str    = "   $s_acc% Accuracy (".$s_fav_weapon." ".$s_fav_weapon_acc."%)\\n";
+		$s_acc_str    = "   $s_acc% точность (".$s_fav_weapon." ".$s_fav_weapon_acc."%)\\n";
 	}
   
 	if ($s_acc == 0) {
@@ -349,43 +349,43 @@ sub get_menu_text
 	my $cmd_text = "";
 	
 	if ($g_ranktype eq "kills") {
-		$cmd_text = 	"->1 - Total\\n".
-					"   Position ".&number_format($rank_number)." of ".&number_format($total_players)."\\n".
-                    "   ".&number_format($kills).":".&number_format($deaths)." Frags ($kd)\\n".
-					"   ".&number_format($headshots)." Headshots ($hpk%)\\n".
-					"   ".&number_format($skill)." Points\\n".
+		$cmd_text = 	"->1 - Общая\\n".
+					"   Позиция ".&number_format($rank_number)." из ".&number_format($total_players)."\\n".
+                    "   ".&number_format($kills).":".&number_format($deaths)." уб. ($kd)\\n".
+					"   ".&number_format($headshots)." уб. в голову ($hpk%)\\n".
+					"   ".&number_format($skill)." очк.\\n".
 					$weapon_str.
                     $acc_str.
-                    "   Time ".&date_format($connection_time)."\\n \\n".
-                    "->2 - Session\\n".
-                    "   ".&number_format($s_pos_change)." Positions\\n".
-                    "   ".&number_format($s_kills).":".&number_format($s_deaths)." Frags ($s_kd)\\n".
-                    "   ".&number_format($s_headshots)." Headshots ($s_hpk%)\\n".
-					"   ".&number_format($s_skill_change)." Points\\n".
+                    "   Время ".&date_format($connection_time)."\\n \\n".
+                    "->2 - Тек. матч\\n".
+                    "   ".&number_format($s_pos_change)." поз.\\n".
+                    "   ".&number_format($s_kills).":".&number_format($s_deaths)." уб. ($s_kd)\\n".
+                    "   ".&number_format($s_headshots)." уб. в голову ($s_hpk%)\\n".
+					"   ".&number_format($s_skill_change)." очк.\\n".
                     $s_weapon_str.
                     $s_acc_str.
-                    "   Time ".&date_format(time() - $p_connect_time)."\\n";
+                    "   Время ".&date_format(time() - $p_connect_time)."\\n";
 	} else {
-		$cmd_text = 	"->1 - Total\\n".
-					"   Position ".&number_format($rank_number)." of ".&number_format($total_players)."\\n".
-					"   ".&number_format($skill)." Points\\n".
-                    "   ".&number_format($kills).":".&number_format($deaths)." Frags ($kd)\\n".
-					"   ".&number_format($headshots)." Headshots ($hpk%)\\n".
+		$cmd_text = 	"->1 - Общая\\n".
+					"   Позиция ".&number_format($rank_number)." из ".&number_format($total_players)."\\n".
+					"   ".&number_format($skill)." очк.\\n".
+                    "   ".&number_format($kills).":".&number_format($deaths)." уб. ($kd)\\n".
+					"   ".&number_format($headshots)." уб. в голову ($hpk%)\\n".
 					$weapon_str.
                     $acc_str.
-                    "   Time ".&date_format($connection_time)."\\n \\n".
-                    "->2 - Session\\n".
-                    "   ".&number_format($s_pos_change)." Positions\\n".
-                    "   ".&number_format($s_skill_change)." Points\\n".
-                    "   ".&number_format($s_kills).":".&number_format($s_deaths)." Frags ($s_kd)\\n".
-                    "   ".&number_format($s_headshots)." Headshots ($s_hpk%)\\n".
+                    "   Время ".&date_format($connection_time)."\\n \\n".
+                    "->2 - Тек. матч\\n".
+                    "   ".&number_format($s_pos_change)." поз.\\n".
+                    "   ".&number_format($s_skill_change)." очк.\\n".
+                    "   ".&number_format($s_kills).":".&number_format($s_deaths)." уб. ($s_kd)\\n".
+                    "   ".&number_format($s_headshots)." уб. в голову ($s_hpk%)\\n".
                     $s_weapon_str.
                     $s_acc_str.
-                    "   Time ".&date_format(time() - $p_connect_time)."\\n";
+                    "   Время ".&date_format(time() - $p_connect_time)."\\n";
 	}
 	
-		$points = "   ".&number_format($skill)." Points\\n";
-	$s_points = "   ".&number_format($s_skill_change)." Points\\n";
+		$points = "   ".&number_format($skill)." очк.\\n";
+	$s_points = "   ".&number_format($s_skill_change)." очк.\\n";
 
 	return $cmd_text;
 }
@@ -510,19 +510,19 @@ sub doEvent_EnterGame
 					my $msg = "";
 					if ($player_rank == 0)
 					{
-						$msg = sprintf("Player %s has connected from %s", $player->{name},$player->{country});
+						$msg = sprintf("Игрок %s подключился из %s", $player->{name},$player->{country});
 					}
 					elsif ($player->{skill} == 1000)
 					{
-						$msg = sprintf("New player %s has connected from %s",$player->{name},$player->{country});
+						$msg = sprintf("Новый игрок %s подключился из %s",$player->{name},$player->{country});
 					}
 					elsif ($g_ranktype ne "kills")
 					{
-						$msg = sprintf("%s (Pos %s with %s points) has connected from %s",$player->{name},$player_rank,$player->{skill},$player->{country});
+						$msg = sprintf("%s (Поз. %s с %s очк.) подключился из %s",$player->{name},$player_rank,$player->{skill},$player->{country});
 					}
 					else
 					{
-						$msg = sprintf("%s (Pos %s with %s kills) has connected from %s",$player->{name},$player_rank,$player->{total_kills},$player->{country});
+						$msg = sprintf("%s (Поз. %s с %s уб.) подключился из %s",$player->{name},$player_rank,$player->{total_kills},$player->{country});
 					}
 					$g_servers{$s_addr}->messageAll($msg, $player->{playerid}, 1);
 				}
@@ -530,11 +530,11 @@ sub doEvent_EnterGame
 				{
 					if ($g_ranktype ne "kills")
 					{
-						$msg = sprintf("%s (Pos %s with %s points) has connected",$player->{name},$player_rank,$player->{skill});
+						$msg = sprintf("%s (Поз. %s с %s очк.) подключился",$player->{name},$player_rank,$player->{skill});
 					}
 					else
 					{
-						$msg = sprintf("%s (Pos %s with %s kills) has connected",$player->{name},$player_rank,$player->{total_kills});
+						$msg = sprintf("%s (Поз. %s с %s уб.) подключился",$player->{name},$player_rank,$player->{total_kills});
 					}
 					$g_servers{$s_addr}->messageAll($msg, $player->{playerid}, 1);
 				}
@@ -651,7 +651,7 @@ sub doEvent_Disconnect
 	{
 		$desc = "(IGNORED) NOPLAYERINFO: ";
 		if ($playerUniqueId ne "") {
-			if ($ev_properties eq "(reason \"VAC banned from secure server\")") {
+			if ($ev_properties eq "(reason \"бан системой VAC\")") {
 				$desc = "(IGNORED) VAC BANNED PLAYER [".$playerUniqueId."]: ";
 				my $playerid = &getPlayerId($playerUniqueId);
 				if ($playerid) {
@@ -874,7 +874,7 @@ sub doEvent_TeamSelection
 			$desc = "(IGNORED) BOT: ";
 		} else {
 			$old_team = $player->{team};
-			if (($old_team eq "CT") || ($old_team eq "TERRORIST"))
+			if (($old_team eq "Спецназ") || ($old_team eq "Террористы"))
 			{
 				$g_servers{$s_addr}->increment("ba_player_switch");
 			}  
@@ -1254,16 +1254,16 @@ sub doEvent_Frag
 					my $colorparam = $g_servers{$s_addr}->{format_color};
 					my $msg = "";
 					if ($g_servers{$s_addr}->{play_game} == L4D()) {
-						$msg = sprintf("%s (%s)%s got %s points for killing %s",$k_name,&number_format($killerskill),$killer_add_text,$k_skill,$v_name);
+						$msg = sprintf("%s (%s)%s получил %s очк. за убийство %s",$k_name,&number_format($killerskill),$killer_add_text,$k_skill,$v_name);
 					} else {
-						$msg = sprintf("%s (%s)%s got %s points%s for killing %s (%s)%s",$k_name,&number_format($killerskill),$killer_add_text,$k_skill,$v_skill_text,$v_name,&number_format($victimskill),$victim_add_text);
+						$msg = sprintf("%s (%s)%s получил %s очк. %s за убийство %s (%s)%s",$k_name,&number_format($killerskill),$killer_add_text,$k_skill,$v_skill_text,$v_name,&number_format($victimskill),$victim_add_text);
 					}
 					my @rcmds;
 					if (($killer->{is_bot} == 0) && ($killer->{"display_events"} == 1) && ($killer->{userid} > 0)) {
 						my $cmd_str = sprintf("%s %s%s %s",$rcmd,$k_userid,$colorparam,$g_servers{$s_addr}->quoteparam($msg));
 						push(@rcmds, $cmd_str);
 						if (($g_player_minkills > 20) && (($killer->{"total_kills"} < ($g_player_minkills / 4)) || (($killer->{"total_kills"} < $g_player_minkills) && (($killer->{"total_kills"} % 5) == 0)))) {
-							my $cmd_str = sprintf("%s %s %s",$rcmd,$k_userid,$g_servers{$s_addr}->quoteparam("You need ".&number_format($g_player_minkills-$killer->{"total_kills"})." kills to get regular points"));
+							my $cmd_str = sprintf("%s %s %s",$rcmd,$k_userid,$g_servers{$s_addr}->quoteparam("Вам нужно ".&number_format($g_player_minkills-$killer->{"total_kills"})." уб. для получения регулярных очков."));
 							push(@rcmds, $cmd_str);
 							
 						}
@@ -1384,7 +1384,7 @@ sub doEvent_Frag
 					my $k_userid  = $g_servers{$s_addr}->format_userid($killer->{userid});
 					my $v_userid  = $g_servers{$s_addr}->format_userid($victim->{userid});
 					my $colorparam = $g_servers{$s_addr}->{format_color};
-					my $msg = sprintf("%s lost %s points (%s) for team-killing",$k_name,$tk_penalty,&number_format($k_skill));
+					my $msg = sprintf("%s потерял %s очк. (%s) за убийство союзника.",$k_name,$tk_penalty,&number_format($k_skill));
 					
 					my @rcmds;
 					if (($killer->{is_bot} == 0) && ($killer->{display_events} == 1) && ($killer->{userid} > 0)) {
@@ -1572,9 +1572,9 @@ sub doEvent_PlayerPlayerAction
 						if ($g_servers{$s_addr}->{broadcasting_player_actions} == 1) {
 							my $verb = "";
 							if ($reward_player < 0) {
-								$verb = "lost";
+								$verb = "потерял";
 							} else {
-								$verb = "got";
+								$verb = "получил";
 							}
 							my $colorparam = $g_servers{$s_addr}->{format_color};
 							my $coloraction = $g_servers{$s_addr}->{format_action};
@@ -1583,7 +1583,7 @@ sub doEvent_PlayerPlayerAction
 							my $p_skill   = $player->{skill};
 							my $v_name    = $victim->{name};
 							my $v_skill   = $victim->{skill};
-							my $msg = sprintf("%s %s %s points (%s) for %s%s%s against %s (%s)",$p_name,$verb,abs($reward_player), &number_format($p_skill),$coloraction,$actionname,$colorend, $v_name, &number_format($v_skill));
+							my $msg = sprintf("%s %s %s очк. (%s) за %s%s%s снова %s (%s)",$p_name,$verb,abs($reward_player), &number_format($p_skill),$coloraction,$actionname,$colorend, $v_name, &number_format($v_skill));
 							my @rcmds;
 							if (($player->{is_bot} == 0) && ($player->{display_events} == 1) && ($player->{userid} > 0)) {
 								my $p_userid  = $g_servers{$s_addr}->format_userid($player->{userid});
@@ -1842,11 +1842,11 @@ sub doEvent_PlayerAction
 							my $colorparam = $g_servers{$s_addr}->{format_color};
 							my $coloraction = $g_servers{$s_addr}->{format_action};
 							if ($reward_player !=0) {
-								my $verb = "got";
+								my $verb = "получил";
 								if ($reward_player < 0) {
-									$verb = "lost";
+									$verb = "потерял";
 								}
-								my $msg = sprintf("%s %s %s points (%s) for %s%s", $p_name, $verb, abs($reward_player),&number_format($p_skill),$coloraction,$actionname);
+								my $msg = sprintf("%s %s %s очк. (%s) за %s%s", $p_name, $verb, abs($reward_player),&number_format($p_skill),$coloraction,$actionname);
 								my $cmd_str = sprintf("%s %s%s %s",$rcmd,$p_userid,$colorparam,$g_servers{$s_addr}->quoteparam($msg));
 								$g_servers{$s_addr}->dorcon($cmd_str);
 							}
@@ -1864,7 +1864,7 @@ sub doEvent_PlayerAction
 					if (!$team) {
 						$team = $player->{team};
 					}
-					# print "Reward Team ($team) giving ($reward_team) for $actionname\n";
+					# print "Командная награда ($team) получена ($reward_team) за $actionname\n";
 					&rewardTeam($team, $reward_team, $actionid, $actionname, $action);
 				}
 			} else {
@@ -1964,7 +1964,7 @@ sub doEvent_WorldAction
 	if ($act_players < $min_players) {
 		$desc = "(IGNORED) NOTMINPLAYERS: ";
 		if ($action eq "Round_Start") {
-			$g_servers{$s_addr}->messageAll(sprintf("HLstatsX:CE disabled! Need at least %s active players (%s/%s)", $min_players, $act_players, $min_players),0,1);
+			$g_servers{$s_addr}->messageAll(sprintf("Статистика HLstatsX: CE выключена! Для счёта нужно %s активных игрока (%s/%s)", $min_players, $act_players, $min_players),0,1);
 		}
 	} else {
 		my $map = $g_servers{$s_addr}->get_map();
@@ -2000,7 +2000,7 @@ sub doEvent_WorldAction
 			$g_servers{$s_addr}->set("lastdisabledbonus", $ev_remotetime);
 			$g_servers{$s_addr}->set("bonusroundtime_state", 1);
 			if ($act_players >= $min_players) {
-				$g_servers{$s_addr}->messageAll("Round Over - All actions/frags are ignored by HLstatsX:CE until the next round starts",0,1);
+				$g_servers{$s_addr}->messageAll("Round Over - Все действия/убийства проигнорированы HLstatsX:CE!",0,1);
 			}
 		}
 
@@ -2365,9 +2365,9 @@ sub doEvent_Chat
 						my $msg = "";
 						if ($g_ranktype eq "kills") {
 							my $kills = $player->{total_kills};
-							$msg = sprintf("%s is on rank %d of %d with %d kills!", $playerName, $ranknumber, $totalplayers, $kills);
+							$msg = sprintf("%s is с ранком %d из %d с %d уб.!", $playerName, $ranknumber, $totalplayers, $kills);
 						} else {
-							$msg = sprintf("%s is on rank %d of %d with %d points!", $playerName, $ranknumber, $totalplayers, $skill);
+							$msg = sprintf("%s is с ранком %d из %d с %d очк.!", $playerName, $ranknumber, $totalplayers, $skill);
 						}
 						$cmd_str = sprintf("%s %s %s", $rcmd, $p_userid, $g_servers{$s_addr}->quoteparam($msg));
 					}  
@@ -2375,16 +2375,16 @@ sub doEvent_Chat
 					if ($g_ranktype eq "kills") {
 						my $kills = $player->{total_kills};
 						$cmd_str = "";
-						$g_servers{$s_addr}->messageAll(sprintf("%s is on rank %d of %d with %d kills!", $playerName, $ranknumber, $totalplayers, $kills));
+						$g_servers{$s_addr}->messageAll(sprintf("%s с ранком %d of %d с %d уб.!", $playerName, $ranknumber, $totalplayers, $kills));
 					} else {
 						$cmd_str = "";
-						$g_servers{$s_addr}->messageAll(sprintf("%s is on rank %d of %d with %d points!", $playerName, $ranknumber, $totalplayers, $skill));
+						$g_servers{$s_addr}->messageAll(sprintf("%s с ранком %d of %d с %d очк.!", $playerName, $ranknumber, $totalplayers, $skill));
 					}
 				}
 			} else {
 				$rcmd = $g_servers{$s_addr}->{player_command};
 				if ($player->{display_events} == 1) {
-					$cmd_str = "$rcmd $p_userid ".$g_servers{$s_addr}->quoteparam("No player found with this userid. Type status in console to get players userid!");
+					$cmd_str = "$rcmd $p_userid ".$g_servers{$s_addr}->quoteparam("Никакой игрок не найден с этим userID. Напечатайте status в консоли, чтобы получить userID игроков!");
 				}  
 			}
 			if ($cmd_str ne "")
@@ -2426,20 +2426,20 @@ sub doEvent_Chat
 						$cmd_str = sprintf("%s \"10\" %s %s", $g_servers{$s_addr}->{"player_command_osd"}, $p_userid, $osd_string);
 					} else {  
 						if ($player->{display_events} == 1) {
-							$cmd_str = $g_servers{$s_addr}->{player_command}." ".$p_userid." ".$g_servers{$s_addr}->quoteparam(sprintf("%s has %d:%d frags, %d headshots (%s%%),%s and a KD-Radio of %s", $playerName, $kills, $deaths, $headshots, $hpk, $accstring, $kd));
+							$cmd_str = $g_servers{$s_addr}->{player_command}." ".$p_userid." ".$g_servers{$s_addr}->quoteparam(sprintf("%s имеет %d:%d уб., %d уб. в голову (%s%%),%s и К/С %s", $playerName, $kills, $deaths, $headshots, $hpk, $accstring, $kd));
 						}  
 					}
 				} else {					
 					if ($g_servers{$s_addr}->{"public_commands"} == 1) {
 						$cmd_str = "";
-						$g_servers{$s_addr}->messageAll(sprintf("%s has %d:%d frags, %d headshots (%s%%),%s and a KD-Ratio of %s", $playerName, $kills, $deaths, $headshots, $hpk, $accstring, $kd));
+						$g_servers{$s_addr}->messageAll(sprintf("%s имеет %d:%d уб., %d уб. в голову (%s%%),%s и К/С %s", $playerName, $kills, $deaths, $headshots, $hpk, $accstring, $kd));
 					} else {
-						$cmd_str = $g_servers{$s_addr}->{player_command}." ".$p_userid." ".$g_servers{$s_addr}->quoteparam(sprintf("%s has %d:%d frags, %d headshots (%s%%),%s and a KD-Ratio of %s", $playerName, $kills, $deaths, $headshots, $hpk, $accstring, $kd));
+						$cmd_str = $g_servers{$s_addr}->{player_command}." ".$p_userid." ".$g_servers{$s_addr}->quoteparam(sprintf("%s имеет %d:%d уб., %d уб. в голову (%s%%),%s и К/С %s", $playerName, $kills, $deaths, $headshots, $hpk, $accstring, $kd));
 					}
 				}
 			} else {
 				if ($player->{display_events} == 1) {
-					$cmd_str = $g_servers{$s_addr}->{player_command}." ".$p_userid." ".$g_servers{$s_addr}->quoteparam("No player found with this userid. Type status in console to get players userid!");
+					$cmd_str = $g_servers{$s_addr}->{player_command}." ".$p_userid." ".$g_servers{$s_addr}->quoteparam("Игрок не найден с этим userID. Напечатайте status в консоли, чтобы получить userID!");
 				}
 			}
 			if ($cmd_str ne "")
@@ -2500,7 +2500,7 @@ sub doEvent_Chat
 			if ($error == 0) {
 				my $pointstr="";
 				if ($g_ranktype ne "kills") {
-					$pointstr = sprintf(" and a skill change of %d points", $skill);
+					$pointstr = sprintf(" and a skill change of %d очк.", $skill);
 				}
 				my $msg = sprintf("%s has %d:%d frags%s, %d headshots (%s%%),%s%s", $playerName, $kills, $deaths, $kdstring, $headshots, $hpk, $accstring, $pointstr);
 				if ($message !~ /^\/?session_data([ ][0-9]+)?$/i) {
@@ -2895,7 +2895,7 @@ sub doEvent_ChangeMap
 		}
 		$g_servers{$s_addr}->updatePlayerCount();
 		$g_servers{$s_addr}->{map} = $newmap;
-		&printNotice("Current map for server \"$s_addr\" is now \"" . $newmap . "\"");
+		&printNotice("Текущая карта на сервере \"$s_addr\" сейчас \"" . $newmap . "\"");
 		
 		return "Started map \"$newmap\"";
 	}
